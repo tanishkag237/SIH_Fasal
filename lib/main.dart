@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sihfasal/modules/seller/home/pages/home.dart';
+
+
+import 'seller/00home/pages/home.dart';
 
 void main() {
   runApp(MaterialApp(

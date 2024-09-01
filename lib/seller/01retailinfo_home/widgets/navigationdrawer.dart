@@ -16,7 +16,6 @@ class _NavigationState extends State<Navigation> {
     //double screenText = screenWidth * 0.05;
     TextStyle txtstyle=TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold);
 
-
     return Drawer(
       backgroundColor: Colors.white,
       child: Padding(

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:sihfasal/modules/seller/additems/pages/additems.dart';
 
-import '../../retailinfo_home/pages/seller_main.dart';
+import '../../02additems/pages/itemslisted.dart';
+import '../../01retailinfo_home/pages/seller_main.dart';
 import '../widgets/bottomnav.dart';
 
-class HomeScreen extends StatelessWidget {
-   HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
 
+  @override
+  _HomeScreenState createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final ValueNotifier<int> _currentPageIndex = ValueNotifier<int>(0);
 
   final _destinations = const [
@@ -20,24 +25,18 @@ class HomeScreen extends StatelessWidget {
       selectedIcon: Icons.add_box,
       label: "Add item",
     ),
-    BottomNavigationIcon(
-      icon: Icons.chat_outlined,
-      selectedIcon: Icons.chat,
-      label: "Chats",
-    ),
+    // BottomNavigationIcon(
+    //   icon: Icons.chat_outlined,
+    //   selectedIcon: Icons.chat,
+    //   label: "Chats",
+    // ),
   ];
 
-
-  final screens = const [
+  final List<Widget> _screens = [
     SellerMain(),
-    Additems(), // Temporary placeholder
-    PlaceholderWidget(title: "Chats"),
-   
+    ItemsListed(), // Keep state intact
+    //ChatScreen(username: '',)
   ];
-
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +44,10 @@ class HomeScreen extends StatelessWidget {
       body: ValueListenableBuilder<int>(
         valueListenable: _currentPageIndex,
         builder: (context, index, _) {
-          return screens[index];
+          return IndexedStack(
+            index: index,
+            children: _screens,
+          );
         },
       ),
       bottomNavigationBar: NavigationBarTheme(
@@ -66,27 +68,6 @@ class HomeScreen extends StatelessWidget {
             );
           },
         ),
-      ),
-
-
-
-      
-
-    );
-  }
-}
-
-class PlaceholderWidget extends StatelessWidget {
-  final String title;
-
-  const PlaceholderWidget({required this.title, super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        title,
-        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
     );
   }
