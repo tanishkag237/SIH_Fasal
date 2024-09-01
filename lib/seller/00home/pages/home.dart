@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sihfasal/seller/03chatseller/pages/allchats.dart';
 
 import '../../02additems/pages/itemslisted.dart';
 import '../../01retailinfo_home/pages/seller_main.dart';
@@ -25,17 +26,17 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedIcon: Icons.add_box,
       label: "Add item",
     ),
-    // BottomNavigationIcon(
-    //   icon: Icons.chat_outlined,
-    //   selectedIcon: Icons.chat,
-    //   label: "Chats",
-    // ),
+    BottomNavigationIcon(
+      icon: Icons.chat_outlined,
+      selectedIcon: Icons.chat,
+      label: "Chats",
+    ),
   ];
 
   final List<Widget> _screens = [
     SellerMain(),
     ItemsListed(), // Keep state intact
-    //ChatScreen(username: '',)
+    Allchats()
   ];
 
   @override

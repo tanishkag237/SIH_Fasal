@@ -11,6 +11,39 @@ class SellerMain extends StatefulWidget {
 }
 
 class _SellerMainState extends State<SellerMain> {
+  List<Map<String, String>> buyers = [
+    {'name': 'Suraj', 'imgpath': 'assets/man1.jpeg', 'desc': 'Retails in vegetables'},
+    {'name': 'Ram', 'imgpath': 'assets/man2.jpeg', 'desc': 'Retails in fruits'},
+    {'name': 'Rakesh', 'imgpath': 'assets/man3.jpeg', 'desc': 'Retails in millets'},
+    {'name': 'Chandan', 'imgpath': 'assets/man4.jpeg', 'desc': 'Retails in cereals'},
+  ];
+
+
+
+  List<Map<String, String>> searchResults = [];
+
+  @override
+  void initState() {
+    super.initState();
+    searchResults = buyers; 
+  }
+
+  void filterSearchResults(String query) {
+    List<Map<String, String>> results = [];
+    if (query.isEmpty) {
+      results = buyers;
+    } else {
+      results = buyers
+          .where((buyer) =>
+              buyer['name']!.toLowerCase().contains(query.toLowerCase()) ||
+              buyer['desc']!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+    }
+    setState(() {
+      searchResults = results;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
@@ -21,69 +54,65 @@ class _SellerMainState extends State<SellerMain> {
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
-        drawer: Navigation(),
-          appBar: AppBar(
-            // leading: IconButton(icon :Icon(Icons.person, size: 40,), 
-            // onPressed: (){
-            //   Navigation();
-            // },),
-            elevation: 5,
-            title: const Text('Seller Dashboard'),
-            centerTitle: true,
-            actions: [
-              Tooltip(
-                message: "Refresh Page",
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.refresh,
-                    size: 40,
-                  ),
-                  onPressed: () {
-                    setState(() {
-                     // print("refreshed");
-                    });
-                  },
+        drawer: const Navigation(),
+        appBar: AppBar(
+          elevation: 5,
+          title: const Text('Seller Dashboard'),
+          centerTitle: true,
+          actions: [
+            Tooltip(
+              message: "Refresh Page",
+              child: IconButton(
+                icon: const Icon(
+                  Icons.refresh,
+                  size: 40,
                 ),
-              )
-            ],
-          ),
-          body: SingleChildScrollView(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                        color: bluebg,
-                        height: screenHeight * 0.25,
-                        width: screenWidth,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Hello [NAME],",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: screenText,
-                                fontWeight: FontWeight.bold,
-                              ),
+                onPressed: () {
+                  setState(() {
+                    // print("refreshed");
+                  });
+                },
+              ),
+            )
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Center(
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      color: bluebg,
+                      height: screenHeight * 0.25,
+                      width: screenWidth,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Hello Shyamlal,",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenText,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              "Let's see some new buyers in town ",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: screenText * 1.3,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          ),
+                          Text(
+                            "Let's see some new buyers in town ",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: screenText * 1.3,
+                              fontWeight: FontWeight.bold,
                             ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            SearchAnchor(
-                              builder: (BuildContext context,
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          SearchAnchor(
+                            builder: (BuildContext context,
                                 SearchController controller) {
                               return SearchBar(
                                 controller: controller,
@@ -91,52 +120,53 @@ class _SellerMainState extends State<SellerMain> {
                                     const WidgetStatePropertyAll<EdgeInsets>(
                                         EdgeInsets.symmetric(horizontal: 16.0)),
                                 onTap: () {},
-                                onChanged: (_) {},
+                                onChanged: (query) {
+                                  filterSearchResults(query);
+                                },
                                 leading: const Icon(Icons.search),
                                 trailing: <Widget>[],
                               );
-                              
-                            }, 
+                            },
                             viewBackgroundColor: Colors.white,
                             suggestionsBuilder: (BuildContext context,
                                 SearchController controller) {
-                              return List<ListTile>.generate(5, (int index) {
-                                final String item = 'item $index';
+                              return List<ListTile>.generate(
+                                  searchResults.length, (int index) {
+                                final buyer = searchResults[index];
                                 return ListTile(
-                                  title: Text(item),
+                                  title: Text(buyer['name']!),
+                                  subtitle: Text(buyer['desc']!),
                                   onTap: () {
+                                  
                                     setState(() {
-                                      controller.closeView(item);
-                                    });
+                                      controller.closeView(buyer['name']);
+                                    }
+                                    );
                                   },
                                 );
                               });
-                            })
-                          ],
-                        ),
+                            },
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 20,),
-                    Buyercard(rname: 'Suraj', imgpath: 'assets/man1.jpeg', rdesc: 'Retails in veggies', rating: '4',),
-                     const SizedBox(height: 10,),
-                    Buyercard(rname: 'Rakesh', imgpath: 'assets/man2.jpeg', rdesc: 'Retails in fruits', rating: '3.4',),
-                     const SizedBox(height: 10,),
-                    Buyercard(rname: 'Buyer 3', imgpath: 'assets/man3.jpeg', rdesc: 'Retails in millets', rating: '4.5',),
-                     const SizedBox(height: 10,),
-                    Buyercard(rname: 'Buyer 4', imgpath: 'assets/man4.jpeg', rdesc: 'Retails in veggies', rating: '3',),
-                     const SizedBox(height: 10,),
-                    Buyercard(rname: 'Rakesh', imgpath: 'assets/man2.jpeg', rdesc: 'Retails in fruits', rating: '3.6',),
-                     const SizedBox(height: 10,),
-                    
-                  ],
-                ),
+                  ),
+                  const SizedBox(height: 20,),
+                  ...searchResults.map((buyer) => Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: Buyercard(
+                      rname: buyer['name']!,
+                      imgpath: buyer['imgpath']!,
+                      rdesc: buyer['desc']!, 
+                      rating: '4',
+                    ),
+                  )),
+                ],
               ),
             ),
-          )),
+          ),
+        ),
+      ),
     );
-
-
-    
   }
-  
 }

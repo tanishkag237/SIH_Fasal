@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 
-import '../../03chatseller/pages/chatseller.dart';
+import '../../03chatseller/pages/chatwithbuyer.dart';
 
 
 
@@ -92,8 +92,9 @@ class _BuyercardState extends State<Buyercard> {
                 child: ElevatedButton(onPressed: () { 
                    Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ChatScreen(username: widget.rname,)),
+              MaterialPageRoute(builder: (context) => ChatwithBuyerScreen(username: widget.rname,)),
             );
+            
                  },
                 child: Text('CHAT',style:TextStyle(color: Color.fromARGB(255, 34, 99, 52), fontSize: 20, fontWeight: FontWeight.bold))),
                 )

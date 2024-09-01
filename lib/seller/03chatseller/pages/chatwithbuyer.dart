@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
-class ChatScreen extends StatefulWidget {
+class ChatwithBuyerScreen extends StatefulWidget {
 
    final String username;
-   const ChatScreen({Key? key, required this.username}) : super(key: key);
+   const ChatwithBuyerScreen({Key? key, required this.username}) : super(key: key);
   @override
-  _ChatScreenState createState() => _ChatScreenState();
+  _ChatwithBuyerScreenState createState() => _ChatwithBuyerScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatwithBuyerScreenState extends State<ChatwithBuyerScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<String> _messages = [];
 
